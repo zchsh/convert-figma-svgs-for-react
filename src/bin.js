@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 const convertFigmaSvgsForReact = require('./index.js')
 
 const args = process.argv.slice(2)
