@@ -1,0 +1,19 @@
+{
+  "name": "convert-figma-svgs-for-react",
+  "version": "1.0.0",
+  "description": "A small script for a very specific use case.",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zchsh/convert-figma-svgs-for-react.git"
+  },
+  "author": "@zchsh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zchsh/convert-figma-svgs-for-react/issues"
+  },
+  "homepage": "https://github.com/zchsh/convert-figma-svgs-for-react#readme"
+}
