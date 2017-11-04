@@ -18,5 +18,10 @@
   "bugs": {
     "url": "https://github.com/zchsh/convert-figma-svgs-for-react/issues"
   },
-  "homepage": "https://github.com/zchsh/convert-figma-svgs-for-react#readme"
+  "homepage": "https://github.com/zchsh/convert-figma-svgs-for-react#readme",
+  "dependencies": {
+    "chalk": "^2.3.0",
+    "jsdom": "^11.3.0",
+    "replace-ext": "^1.0.0"
+  }
 }

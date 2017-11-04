@@ -5,8 +5,8 @@ const chalk = require('chalk')
 
 //  This readSvgFiles function is probably available as an NPM package...
 const readSvgFiles = require('./helpers/readSvgFiles.js')
-export const reformatFigmaSvg = require('./helpers/reformatFigmaSvg.js')
-
+const reformatFigmaSvg = require('./helpers/reformatFigmaSvg.js')
+module.exports.reformatFigmaSvg = reformatFigmaSvg
 //  This is a script to make any SVGs available as modules that export an SVG string.
 //  This allows us to inline our SVG and take advantage of CSS styling of said inlined SVGs.
 //  It also reformats SVGs exported from Figma, which otherwise would be unsuitable for inline use.
