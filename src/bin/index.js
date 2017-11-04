@@ -3,8 +3,9 @@ var convertFigmaSvgsForReact = require('../index.js')
 var path = require('path')
 
 var args = process.argv.slice(2)
-console.log('Args...')
-console.log(JSON.stringify(process.argv, null, 2))
-var directory = path.resolve(__dirname + '/' + args[0]) + '/'
+var directory = args[0]
+if (directory[directory.length - 1] !== '/') {
+  directory += '/'
+}
 
 convertFigmaSvgsForReact(directory)

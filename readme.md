@@ -6,4 +6,6 @@ Searches the directory supplied as the first command-line argument for `.svg` fi
 
 ## Usage
 
-`convert-figma-svgs-for-react ./path/to/svg/directory`
+```
+convert-figma-svgs-for-react ./path/to/svg/directory
+```
