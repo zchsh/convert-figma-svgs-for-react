@@ -1,6 +1,6 @@
 {
   "name": "convert-figma-svgs-for-react",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A small script for a very specific use case.",
   "main": "src/index.js",
   "scripts": {
