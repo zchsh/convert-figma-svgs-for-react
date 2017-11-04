@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
-    "convert-figma-svgs-for-react": "./src/bin.js"
+    "convert-figma-svgs-for-react": "./src/bin/index.js"
   },
   "repository": {
     "type": "git",
