@@ -4,7 +4,7 @@
   "description": "A small script for a very specific use case.",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node ./src/bin/index.js ./src/test/svg"
   },
   "bin": {
     "convert-figma-svgs-for-react": "./src/bin/index.js"

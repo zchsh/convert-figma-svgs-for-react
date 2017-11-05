@@ -12,54 +12,45 @@ const { JSDOM } = require('jsdom')
 //  for this reason, we have to duplicate all attributes from each <use> in a
 //  file onto the corresponding SVG element within <defs>
 //
-//  Finally, Figma also applies a transform to a wrapping #Canvas SVG group,
-//  we need to preserve that transform by wrapping our parsed SVG elements
-//  in the #Canvas group
-//
-//  This function uses `jsdom` to try to correct all of those issues.
+//  This function uses `jsdom` to try to correct all of those issues
+//  by replacing each <use> with the path it references, and copying over
+//  all attributes from each specific <use> to the clone of the path
+//  that replaces it
 function reformatFigmaSvg(figmaSvg) {
   //  Initialize JSDOM on the SVG document
   var dom = new JSDOM(figmaSvg)
   var svgDocument = dom.window.document
-  //  Gather the actual SVG elements (eg <path>s) from <defs>
+  //  Gather the <use>s that render the graphic
+  const uses = svgDocument.querySelectorAll('use')
+  //  Replace each <use> with the referenced <path>, cloning attributes
+  Array.from(uses).forEach(use => {
+    replaceUseWithPath(use, svgDocument)
+  })
+  //  Remove the <defs> as they are no longer needed
   var defs = svgDocument.querySelector('defs')
-  var svgElements = defs.children
-  //  For each SVG element, get the associated <use>,
-  //  and apply all attributes of the <use> instance to the actual SVG element
-  Array.from(svgElements).forEach(element => {
-    const thisId = element.id
-    const thisElement = svgDocument.querySelector('#' + thisId)
-    const thisUse = svgDocument.querySelector(
-      'use[xlink:href="#' + thisId + '"]'
-    )
-    //  Transfer all attributes (if any) from the <use> to the element
-    if (thisUse.hasAttributes()) {
-      var attrs = thisUse.attributes
-      for (var i = attrs.length - 1; i >= 0; i--) {
-        //  Exclude 'xlink:href' though, as it's only used to reference the <def>
-        if (attrs[i].name !== 'xlink:href') {
-          thisElement.setAttribute(attrs[i].name, attrs[i].value)
-        }
+  defs.remove()
+  //  Return the reformatted SVG as a string
+  return svgDocument.querySelector('svg').outerHTML
+}
+
+function replaceUseWithPath(use, svgDocument) {
+  const id = use.getAttribute('xlink:href')
+  //  Clone the corresponding path element
+  const path = svgDocument.querySelector(id).cloneNode(true)
+  //  Transfer all attributes (if any) from the <use> to the path element
+  if (use.hasAttributes()) {
+    var attrs = use.attributes
+    for (var i = attrs.length - 1; i >= 0; i--) {
+      //  Exclude 'xlink:href' though, as it's only used to reference the <def>
+      if (attrs[i].name !== 'xlink:href') {
+        path.setAttribute(attrs[i].name, attrs[i].value)
       }
     }
-  })
-  //  Preserve the #Canvas transform by wrapping our SVG elements
-  //  (which were modified in place inside the <defs> element)
-  var canvas = svgDocument.querySelector('#Canvas')
-  canvas.innerHTML = defs.innerHTML
-  const shapes = canvas.outerHTML
-  //  Preserve the <title> and <desc>, if available
-  const titleElement = svgDocument.querySelector('title')
-  const title = titleElement ? titleElement.outerHTML : ''
-  const descElement = svgDocument.querySelector('desc')
-  const desc = descElement ? descElement.outerHTML : ''
-  //  Assemble the parsed SVG contents
-  const parsedContents = title + desc + shapes
-  //  We also need to wrap everything in the original <svg> parent element
-  var svgWrapper = svgDocument.querySelector('svg')
-  svgWrapper.innerHTML = parsedContents
-  //  Finally, we return our formatted SVG as a string
-  return svgWrapper.outerHTML
+  }
+  // Replace the <use> with a clone of the path element
+  use.parentNode.insertBefore(path, use)
+  use.remove()
+  return use
 }
 
 module.exports = reformatFigmaSvg
