@@ -1,21 +1,19 @@
 const { JSDOM } = require('jsdom')
 
-//  Figma exports with <use>, which pulls elements from a <defs> parent
+//  Figma exports with <use>, which pulls elements from <defs> by their ID,
 //  rather than just exporting straight SVG elements (such as <path>)
-//  ... but the <use>s reference simple IDs like "path0_fill", which
-//  are duplicated across included files, so pieces of the first inlined SVG file
-//  end up being <use>d in subsequent inlined SVG files, overriding those
-//  with duplicate IDs, resulting in totally unexpected behaviour.
+//  ... but the <use>s reference non-unique IDs like "path0_fill", which
+//  often show up in several included files. This means files included later
+//  on a page end up grabbing definitions from the first included file,
+//  resulting in a total mess of pieces of SVGs showing up in unexpected places.
 //
-//  To complicate things further, Figma applies CSS transforms and fill colors
-//  to each <use>, so we can't just pull out the SVG elements in <defs>...
-//  for this reason, we have to duplicate all attributes from each <use> in a
-//  file onto the corresponding SVG element within <defs>
+//  Figma applies CSS transforms and fill colors to each <use>,
+//  and each defined path may be <use>d more than once.
 //
 //  This function uses `jsdom` to try to correct all of those issues
-//  by replacing each <use> with the path it references, and copying over
-//  all attributes from each specific <use> to the clone of the path
-//  that replaces it
+//  by replacing each <use> with the path it references. It copies over
+//  all attributes (such as transforms and fill colors) from each specific
+//  <use> to the clone of the path that replaces it.
 function reformatFigmaSvg(figmaSvg) {
   //  Initialize JSDOM on the SVG document
   var dom = new JSDOM(figmaSvg)
