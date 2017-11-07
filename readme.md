@@ -9,3 +9,11 @@ Searches the directory supplied as the first command-line argument for `.svg` fi
 ```
 convert-figma-svgs-for-react ./path/to/svg/directory
 ```
+
+If you just want to use the function that cleans up an SVG exported from Figma, so that it doesn't use `<defs>` and `<use>`, you can also
+
+```javascript
+var reformatFigmaSvg = require('convert-figma-svgs-for-react').reformatFigmaSvg
+//  or
+import { reformatFigmaSvg } from 'convert-figma-svgs-for-react'
+```
