@@ -63,7 +63,11 @@ module.exports = function convertFigmaSvgsForReact(directory) {
     if (err) {
       console.log(
         chalk.keyword('orange')(
-          'No config file (' + CONFIG_FILENAME + ') found in ' + dirname + ' .'
+          'No config file (' +
+            CONFIG_FILENAME +
+            ') found in ' +
+            directory +
+            ' .'
         )
       )
       console.log(
