@@ -1,0 +1,12 @@
+{
+  "meta_tags": {
+    "test_multi-use": {
+      "title": "Multiple Uses",
+      "desc":
+        "A test SVG file that has multiple <use> tags that reference the same <def>."
+    },
+    "test": {
+      "title": "Test SVG with No Description"
+    }
+  }
+}

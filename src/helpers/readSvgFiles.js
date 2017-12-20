@@ -6,7 +6,8 @@ function readSvgFiles(
   onFileCount,
   onFileContent,
   onCompletion,
-  onError
+  onError,
+  CONFIG
 ) {
   fs.readdir(dirname, function(err, filenames) {
     if (err) {
@@ -22,7 +23,7 @@ function readSvgFiles(
           onError(err)
           return
         }
-        onFileContent(dirname, filename, content)
+        onFileContent(dirname, filename, content, CONFIG)
         if (index === count - 1) {
           onCompletion()
         }
