@@ -1,4 +1,5 @@
 var fs = require('fs')
+const path = require('path')
 
 var replaceExt = require('replace-ext')
 const chalk = require('chalk')
@@ -21,7 +22,8 @@ module.exports.reformatFigmaSvg = reformatFigmaSvg
 //  However, this seems a bit hacky unless we eject from create-react-app, which seems a bit scary.
 //  And, it won't fix the Figma export issues
 function handleSvgFile(dirname, filename, content, CONFIG) {
-  const svgString = reformatFigmaSvg(filename, content, CONFIG)
+  const identifier = path.basename(filename, path.extname(filename))
+  const svgString = reformatFigmaSvg(content, CONFIG, identifier)
   //  Strip newlines to prevent JS errors
   const strippedNewlines = svgString.replace(/\n/g, '')
   //  Write contents as JS module

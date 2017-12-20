@@ -1,4 +1,3 @@
-const path = require('path')
 const { JSDOM } = require('jsdom')
 
 //  Figma exports with <use>, which pulls elements from <defs> by their ID,
@@ -15,7 +14,9 @@ const { JSDOM } = require('jsdom')
 //  by replacing each <use> with the path it references. It copies over
 //  all attributes (such as transforms and fill colors) from each specific
 //  <use> to the clone of the path that replaces it.
-function reformatFigmaSvg(filename, figmaSvg, CONFIG) {
+function reformatFigmaSvg(figmaSvg, CONFIG, identifier) {
+  identifier = identifier || ''
+  CONFIG = CONFIG || {}
   //  Initialize JSDOM on the SVG document
   var dom = new JSDOM(figmaSvg)
   var svgDocument = dom.window.document
@@ -29,10 +30,15 @@ function reformatFigmaSvg(filename, figmaSvg, CONFIG) {
   var defs = svgDocument.querySelector('defs')
   defs.remove()
   //  Set the <title> and <desc> of the SVG
-  const basename = path.basename(filename, path.extname(filename))
-  const metaTags = (CONFIG.meta_tags && CONFIG.meta_tags[basename]) || false
+
+  const metaTags =
+    CONFIG.title || CONFIG.desc
+      ? CONFIG
+      : CONFIG.meta_tags && CONFIG.meta_tags[identifier]
+        ? CONFIG.meta_tags[identifier]
+        : false
   var title = svgDocument.querySelector('title')
-  title.textContent = (metaTags && metaTags.title) || basename
+  title.textContent = (metaTags && metaTags.title) || identifier
   var desc = svgDocument.querySelector('desc')
   desc.textContent = (metaTags && metaTags.desc) || ''
   //  Return the reformatted SVG as a string
