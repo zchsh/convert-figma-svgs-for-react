@@ -38,9 +38,13 @@ function reformatFigmaSvg(figmaSvg, CONFIG, identifier) {
         ? CONFIG.meta_tags[identifier]
         : false
   var title = svgDocument.querySelector('title')
-  title.textContent = (metaTags && metaTags.title) || identifier
+  if (title) {
+    title.textContent = (metaTags && metaTags.title) || identifier
+  }
   var desc = svgDocument.querySelector('desc')
-  desc.textContent = (metaTags && metaTags.desc) || ''
+  if (desc) {
+    desc.textContent = (metaTags && metaTags.desc) || ''
+  }
   //  Return the reformatted SVG as a string
   return svgDocument.querySelector('svg').outerHTML
 }
