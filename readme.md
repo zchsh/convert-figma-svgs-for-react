@@ -44,7 +44,7 @@ import { reformatFigmaSvg } from 'convert-figma-svgs-for-react'
 
 ## Configuration
 
-You can set the `<title>` and `<desc>` of each converted SVG file by include a
+You can set the `<title>` and `<desc>` of each converted SVG file by including a
 `convert-figma-svg.config.json` file in the directory being converted:
 
 ```json
