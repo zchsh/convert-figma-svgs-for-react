@@ -27,7 +27,8 @@ function handleSvgFile(dirname, filename, content, CONFIG) {
   //  Strip newlines to prevent JS errors
   const strippedNewlines = svgString.replace(/\n/g, '')
   //  Write contents as JS module
-  const jsContents = `export default '${strippedNewlines}'`
+  const jsPrefix = (CONFIG && CONFIG.modulePrefix) || 'export default '
+  const jsContents = `${CONFIG.modulePrefix}'${strippedNewlines}'`
   const jsFilename = replaceExt(filename, '.js')
   fs.writeFileSync(dirname + jsFilename, jsContents)
   //  Celebrate!
