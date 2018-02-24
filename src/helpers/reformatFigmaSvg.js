@@ -28,7 +28,9 @@ function reformatFigmaSvg(figmaSvg, CONFIG, identifier) {
   })
   //  Remove the <defs> as they are no longer needed
   var defs = svgDocument.querySelector('defs')
-  defs.remove()
+  if (defs) {
+    defs.remove()
+  }
   //  Set the <title> and <desc> of the SVG
 
   const metaTags =
